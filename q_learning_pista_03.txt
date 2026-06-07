@@ -1,0 +1,8 @@
+=== Pista: pista_03.txt ===
+Algoritmo: Q-Learning
+Episódios totais de treinamento: 160000
+Tempo de chegada (passos): 38
+Velocidade média: 0.87
+Velocidade máxima atingida: 1.50
+Recompensa total: 535.20
+Sucesso: SIM

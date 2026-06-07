@@ -11,7 +11,7 @@ Estado observável (o que o agente vê):
 
 Ações: 0 = nada, 1 = acelerar, 2 = frear, 3 = virar esq, 4 = virar dir
 
-NOTA: termos como `step`, `reset`, `obs`, `action`, `reward`, `info` são
+tep`, `reset`, `obs`, `action`, `reward`, `info` são
 mantidos em inglês por serem o vocabulário canônico de Aprendizado por
 Reforço (Sutton & Barto, Gymnasium). Todo o resto está em português.
 """
