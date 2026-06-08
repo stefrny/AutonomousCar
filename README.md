@@ -25,9 +25,18 @@
 
 ---
 
-## 3. Agente Q-Learning (AgenteQLearning)
+## 3. Ambiente
+  O ambiente consiste em uma pista bidimensional representada por um grid contendo células de asfalto, paredes, posição inicial e linha de chegada. O carro possui posição contínua, velocidade e orientação angular.
 
-### 3.1 Representação do estado
+  A cada passo de tempo, o agente pode executar uma entre cinco ações possíveis: manter o estado atual, acelerar, frear, virar à esquerda ou virar à direita.
+
+  A observação recebida pelo agente é composta exclusivamente pelas leituras dos sensores LIDAR e pela velocidade normalizada. Dessa forma, o agente não possui acesso à sua posição absoluta nem ao mapa da pista, devendo aprender a navegar apenas com base em informações locais.
+
+---
+
+## 4. Agente Q-Learning (AgenteQLearning)
+
+### 4.1 Representação do estado
   Estado observado pelo agente: obs = [d_0, d_+30, d_-30, d_+60, d_-60, v_norm]
   
   Cada componente está em [0, 1].
@@ -43,7 +52,7 @@
   Estado final: tupla de 6 inteiros.
 
 
-### 3.2 Tabela Q
+### 4.2 Tabela Q
 
   - Estrutura da Q-table:
     ```
@@ -58,7 +67,7 @@
 
   OBS: n_actions = 5 (assumindo 5 ações possíveis)
 
-### 3.3 Política ε-greedy
+### 4.3 Política ε-greedy
 - Algoritmo:
   - Se um valor aleatório < ε: ação aleatória
   - Caso contrário: ação = argmax Q(s)
@@ -67,7 +76,7 @@
   - ε decai ao longo do treinamento
   - Converge para exploração quase nula
 
-### 3.4 Atualização Q-Learning
+### 4.4 Atualização Q-Learning
 - Equação (atualização padrão):
   - Q(s, a) ← Q(s, a) + α [ r + γ max_{a'} Q(s', a') − Q(s, a) ]
 - Casos:
@@ -76,7 +85,7 @@
   
 ---
 
-## 4. Treinamento (Round-Robin)
+## 5. Treinamento (Round-Robin)
 - Estratégia:
   - O agente treina alternando entre as 16 pistas de treino:
     - pista = random.choice(pistas_treino)
@@ -94,7 +103,7 @@
 
 ---
 
-## 5. Função de recompensa
+## 6. Função de recompensa
 - Recompensa vem diretamente do ambiente:
   - Progresso na pista: positivo incremental
   - Penalidade por tempo: -0.1 por passo
@@ -103,7 +112,7 @@
 
 ---
 
-## 6. Avaliação
+## 7. Avaliação
 - Configuração:
   - ep = 0.0 (política gulosa)
 - Métricas coletadas:
@@ -115,7 +124,7 @@
 
 ---
 
-## 7. Serialização (Pickle)
+## 8. Serialização (Pickle)
 - O modelo salvo contém:
   - {
       "q_table": agente.Q,
@@ -132,7 +141,7 @@
 
 ---
 
-## 8. Função main()
+## 9. Função main()
 - Fluxo geral:
   - Parse de argumentos CLI
   - Treinamento ou carregamento do modelo
@@ -142,20 +151,19 @@
 
 ---
 
-## 9. Resultados obtidos
-- Desempenho geral:
-  - Alta taxa de sucesso em pistas 01–09
-  - Sucesso parcial em pistas médias/difíceis
-  - Algumas falhas pontuais (ex.: pista 10, 14, 16)
-- Holdout (generalização):
-  - pista 17: ✔ sucesso (147 passos, reward 624.3)
-  - pista 18: ✔ sucesso (157 passos, reward 629.3)
-  
-Indica boa generalização do LIDAR local + Q-learning tabular.
+## 10. Resultados obtidos
+  Durante o treinamento, o agente foi exposto às 16 pistas de treinamento utilizando a estratégia round-robin. Após o término do treinamento, o modelo foi avaliado nas pistas de holdout (17 e 18), que não participaram do processo de aprendizado.
+
+  | Pista | Sucesso | Passos | Recompensa |
+  |--------|----------|----------|------------|
+  | 17 | Sim | 147 | 624.3 |
+  | 18 | Sim | 157 | 629.3 |
+
+  Os resultados demonstram que o agente conseguiu generalizar seu comportamento para pistas não vistas anteriormente. Mesmo utilizando uma representação simplificada baseada apenas em sensores LIDAR, o modelo foi capaz de concluir ambas as pistas de avaliação com sucesso.
 
 ---
 
-## 10. Análise crítica do comportamento
+## 11. Análise crítica do comportamento
 - Pontos fortes:
   - Generalização razoável com estado reduzido (LIDAR)
   - Aprendizado eficiente com discretização K=3
@@ -171,8 +179,23 @@ Indica boa generalização do LIDAR local + Q-learning tabular.
 
 ---
 
-## 11. Conclusão
-  A implementação demonstra que a Q-Learning tabular é suficiente para navegação em ambiente estruturado, LIDAR local permite generalização entre pistas, Round-robin é essencial para estabilidade do aprendizado e Discretização K=3 fornece bom trade-off entre granularidade e generalização
+## 12. Conclusão
+  A implementação do algoritmo Q-Learning tabular demonstrou ser capaz de resolver o problema de navegação proposto utilizando apenas informações locais fornecidas pelos sensores LIDAR. A discretização dos estados permitiu transformar observações contínuas em uma representação adequada para aprendizado tabular.
+
+  Os resultados obtidos nas pistas de holdout indicam que o agente foi capaz de generalizar o conhecimento adquirido durante o treinamento para ambientes não vistos anteriormente. Além disso, a estratégia de treinamento round-robin contribuiu para aumentar a robustez da política aprendida e reduzir a especialização em pistas específicas.
+
+  Como possíveis extensões futuras, podem ser exploradas abordagens baseadas em redes neurais, como Deep Q-Networks (DQN), além de técnicas de discretização mais refinadas para lidar com pistas de maior complexidade.
 
 
 ---
+
+## 13. Visualização do Agente
+  Foram realizadas execuções do agente treinado nas pistas de avaliação com o objetivo de observar visualmente o comportamento aprendido.
+
+  As execuções mostraram que o agente conseguiu coordenar velocidade e direção de maneira consistente, reduzindo colisões e mantendo o progresso ao longo da pista até alcançar a linha de chegada.
+
+  ![Execução do agente na pista 17.](docs/imagens/pista_17.png)
+  ![Execução do agente na pista 18.](docs/imagens/pista_18.png)
+
+  ---
+  
