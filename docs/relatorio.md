@@ -194,8 +194,8 @@
 
   As execuções mostraram que o agente conseguiu coordenar velocidade e direção de maneira consistente, reduzindo colisões e mantendo o progresso ao longo da pista até alcançar a linha de chegada.
 
-  ![Execução do agente na pista 17.](docs\imagens\pista_17.png)
-  ![Execução do agente na pista 18.](docs\imagens\pista_18.png)
+  ![Execução do agente na pista 17.](imagens\pista_17.png)
+  ![Execução do agente na pista 18.](imagens\pista_18.png)
 
   ---
   
