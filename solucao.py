@@ -326,7 +326,7 @@ def main():
                         help="Episódios de treino por pista no round-robin (default: 30000)")
     parser.add_argument("--max-passos", type=int, default=500)
     parser.add_argument("--K", type=int, default=5,
-                        help="Baldes da discretização (default: 5; ver README §3.2)")
+                        help="Baldes da discretização (default: 3; ver README §3.2)")
     parser.add_argument("--recarregar", action="store_true",
                         help="Força re-treino mesmo se o pickle existir")
     parser.add_argument("--avaliar", type=str, default=None,
