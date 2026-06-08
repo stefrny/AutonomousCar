@@ -1,0 +1,9 @@
+config,pista,sucesso,reward
+"{'K': 5, 'alpha': 0.1, 'gamma': 0.99}",17,True,624.3
+"{'K': 5, 'alpha': 0.1, 'gamma': 0.99}",18,True,629.3
+"{'K': 7, 'alpha': 0.1, 'gamma': 0.99}",17,True,624.3
+"{'K': 7, 'alpha': 0.1, 'gamma': 0.99}",18,True,629.3
+"{'K': 5, 'alpha': 0.05, 'gamma': 0.99}",17,True,624.3
+"{'K': 5, 'alpha': 0.05, 'gamma': 0.99}",18,True,629.3
+"{'K': 5, 'alpha': 0.1, 'gamma': 0.95}",17,True,624.3
+"{'K': 5, 'alpha': 0.1, 'gamma': 0.95}",18,True,629.3

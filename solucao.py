@@ -331,13 +331,17 @@ def main():
                         help="Força re-treino mesmo se o pickle existir")
     parser.add_argument("--avaliar", type=str, default=None,
                         help="Apenas avalia o modelo salvo na pista especificada (pula treino)")
+    parser.add_argument("--alpha", type=float, default=0.1)
+    parser.add_argument("--gamma", type=float, default=0.99)    
     args = parser.parse_args()
 
     def fn_treinar():
         agente = AgenteQLearning(
             obs_dim=6,
             n_actions=5,
-            K=args.K
+            K=args.K,
+            alpha=args.alpha,
+            gamma=args.gamma
         )
         n_total = (
             args.episodios_por_pista
